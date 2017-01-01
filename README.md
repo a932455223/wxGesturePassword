@@ -1,1 +1,1 @@
-# wxGesturePassword
+## 小程序上的手势密码插件
