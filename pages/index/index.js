@@ -43,11 +43,15 @@ var config = {
 
 
 const ctx = wx.createCanvasContext('myCanvas');
-let sList = [];
-function rect() {
-    ctx.setFillStyle('red')
-    ctx.fillRect(10, 10, 150, 75)
-    ctx.draw()
+let cList = [];
+function checkIn(x,y){
+    for(let p in cList){
+        
+    }
+}
+function Point(x,y){
+    this.x = x;
+    this.y = y;
 }
 
 Page({
@@ -91,6 +95,7 @@ Page({
             count.forEach(function(column) {
                 var x = (cr + config.circle.lineWidth + cm) * (2 * column + 1);
                 var y = cr + config.circle.lineWidth + cm + 2 * row * (cr + config.circle.lineWidth + cm);
+                cList.push(new Point(x,y));
                 ctx.beginPath();
                 ctx.moveTo(x + cr, y);
                 ctx.arc(x, y, cr, 0, 2 * Math.PI);
