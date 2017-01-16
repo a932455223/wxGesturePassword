@@ -1,0 +1,3 @@
+<view class="container">
+ <canvas disable-scroll="true"  bindtouchstart="start" bindtouchmove="move" bindtouchend="end" canvas-id="myCanvas"  style="height:{{canvasHeight}}rpx"/>
+</view>
