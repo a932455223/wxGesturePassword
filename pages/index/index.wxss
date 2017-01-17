@@ -4,3 +4,9 @@ page{
 canvas {
 	width:100%;
 }
+.footer{
+	padding:0 60rpx;
+	color:#fff;
+	display: flex;
+	justify-content: space-between;
+}

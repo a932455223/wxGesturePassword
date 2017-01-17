@@ -1,3 +1,6 @@
 <view class="container">
  <canvas disable-scroll="true"  bindtouchstart="start" bindtouchmove="move" bindtouchend="end" canvas-id="myCanvas"  style="height:{{canvasHeight}}rpx"/>
 </view>
+<view class="footer">
+    <view ontap="showPwd">显示密码</view>  <view ontap="reset">重 置</view> 
+</view>

@@ -1,7 +1,5 @@
 var app = getApp();
-
 var config = require('../../utils/config/gpConfig.js');
-
 const ctx = wx.createCanvasContext('myCanvas');
 
 let cList = [];
@@ -11,6 +9,8 @@ let backImg;
 let cr;
 let cm;
 let state = 'default';
+let disable = false;
+
 function checkIn(x,y,r){
     for(let p of cList){
 
@@ -34,6 +34,26 @@ function Point(x,y,value){
         this.checked = true;
     }
 }
+function draw(winWidth){
+    const count = [0, 1, 2];
+    cr = winWidth / 8 - config.circle.lineWidth;
+    cm = winWidth / (4 * 6);
+    count.forEach(function(row) {
+        count.forEach(function(column) {
+            var x = (cr + config.circle.lineWidth + cm) * (2 * column + 1);
+            var y = cr + config.circle.lineWidth + cm + 2 * row * (cr + config.circle.lineWidth + cm);
+            cList.push(new Point(x,y,row*3 + column));
+            ctx.beginPath();
+            ctx.moveTo(x + cr, y);
+            ctx.arc(x, y, cr, 0, 2 * Math.PI);
+            ctx.setLineWidth(config.circle.lineWidth);
+            ctx.setStrokeStyle(config.circle.default.strokeStyle);
+            ctx.stroke();
+        });
+    });
+    ctx.draw()
+}
+
 
 function drawDotAndLine(){
     cList.forEach(function(p,index){
@@ -96,13 +116,12 @@ Page({
                 this.setData({
                     canvasHeight: winWidth * 2
                 });
-                this.draw(winWidth);
+                draw(winWidth);
             }
         })
     },
     start(e){
-        console.dir(e);
-        if(this.data.touchId === false){
+        if(this.data.touchId === false && !disable){
             this.setData({
                 touching:true,
                 touchId:e.touches[0].identifier,
@@ -112,33 +131,12 @@ Page({
         }
 
     },
-    draw(winWidth){
-        const count = [0, 1, 2];
-        cr = winWidth / 8 - config.circle.lineWidth;
-        console.log('cr:' + cr);
-        console.log('width:' + winWidth);
-        cm = winWidth / (4 * 6);
-        count.forEach(function(row) {
-            count.forEach(function(column) {
-                var x = (cr + config.circle.lineWidth + cm) * (2 * column + 1);
-                var y = cr + config.circle.lineWidth + cm + 2 * row * (cr + config.circle.lineWidth + cm);
-                cList.push(new Point(x,y,row*3+column));
-                ctx.beginPath();
-                ctx.moveTo(x + cr, y);
-                ctx.arc(x, y, cr, 0, 2 * Math.PI);
-                ctx.setLineWidth(config.circle.lineWidth);
-                ctx.setStrokeStyle(config.circle.default.strokeStyle);
-                ctx.stroke();
-            });
-        });
-        ctx.draw()
-    },
     move(e){
         let touch = e.changedTouches.filter((t)=>{
             return t.identifier === this.data.touchId;
         })[0]
 
-        if(touch){
+        if(touch && !disable){
             this.setData({
                 x: touch.x,
                 y: touch.y
@@ -155,16 +153,46 @@ Page({
             return t.identifier === this.data.touchId;
         })
 
-        if(touch){
+        if(touch && !disable){
             this.setData({
                 touchId:false,
                 touching:false,
             });
-        }
-        ctx.clearRect(0,0,this.data.canvasHeight,this.data.canvasHeight);
-        state = 'wrong';
-        drawDotAndLine();
-        console.dir(cList);
+            ctx.clearRect(0,0,this.data.canvasHeight,this.data.canvasHeight);
 
+            var rests = sList.map((p) => p.value).toString();
+
+            if(rests === '0,3,6,7,8'){
+                state = 'right';
+            }else{
+                state = 'wrong';
+            }
+            drawDotAndLine();
+            disable = true;
+
+        }
+
+
+    },
+    reset(){
+        disable = false;
+        ctx.clearRect(0,0,this.data.canvasHeight,this.data.canvasHeight);
+        ctx.draw();
+    },
+    showPwd(){
+        let pwd = sList.map((p)=>p.value).toString();
+        if(pwd){
+            wx.showModal({
+                title:'显示密码',
+                content:pwd,
+                showCancel:false
+            });
+        }else{
+            wx.showModal({
+                title:'提示信息',
+                content:'没有手势密码',
+                showCancel:false
+            });
+        }
     }
 })
