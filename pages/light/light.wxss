@@ -1,6 +1,12 @@
 page{
-	background:linear-gradient(#869991, #060428);
+	background:#fff;
 }
 canvas {
 	width:100%;
+}
+.footer{
+	padding:0 60rpx;
+	color:#000;
+	display: flex;
+	justify-content: space-between;
 }

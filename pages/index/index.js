@@ -1,10 +1,9 @@
 var app = getApp();
-var config = require('../../utils/config/gpConfig.js');
+var config = require('../../utils/config/darkConfig.js');
 const ctx = wx.createCanvasContext('myCanvas');
 
 let cList = [];
 let sList = [];
-let unList = [];
 let backImg;
 let cr;
 let cm;
@@ -172,12 +171,15 @@ Page({
 
         }
 
-
     },
     reset(){
         disable = false;
         ctx.clearRect(0,0,this.data.canvasHeight,this.data.canvasHeight);
         ctx.draw();
+        cList = [];
+        sList = [];
+        state = 'default';
+        draw(this.data.canvasHeight/2);
     },
     showPwd(){
         let pwd = sList.map((p)=>p.value).toString();
