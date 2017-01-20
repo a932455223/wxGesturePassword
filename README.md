@@ -1,6 +1,6 @@
 ## 微信小程序上的手势密码插件
 ### example
-![示例图片](http://7xt768.com1.z0.glb.clouddn.com/gesturePassword-cdb6d8217745a7f5235d5a13cbdd513df1816a9a.gif)
+![示例图片](./gesturePassword.gif)
 
 #### 说明
 这是一个基于 微信小程序提供的 `canvas` api写的手势密码的demo 。此外还有一个 运行在 `web`页面上的 [js版本](https://github.com/a932455223/gesturePassword) 方便大家使用。
