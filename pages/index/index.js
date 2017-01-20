@@ -9,7 +9,7 @@ let cr;
 let cm;
 let state = 'default';
 let disable = false;
-
+let hasMoved = false;
 function checkIn(x,y,r){
     for(let p of cList){
 
@@ -33,6 +33,7 @@ function Point(x,y,value){
         this.checked = true;
     }
 }
+
 function draw(winWidth){
     const count = [0, 1, 2];
     cr = winWidth / 8 - config.circle.lineWidth;
@@ -127,6 +128,7 @@ Page({
                 x: e.touches[0].x,
                 y: e.touches[0].y
             });
+            hasMoved = false;
         }
 
     },
@@ -140,7 +142,7 @@ Page({
                 x: touch.x,
                 y: touch.y
             });
-
+            hasMoved = true;
             checkIn(touch.x,touch.y,this.data.canvasHeight/16);
             ctx.clearRect(0,0,0,0);
             drawDotAndLine();
@@ -152,7 +154,7 @@ Page({
             return t.identifier === this.data.touchId;
         })
 
-        if(touch && !disable){
+        if(hasMoved && touch && !disable){
             this.setData({
                 touchId:false,
                 touching:false,
