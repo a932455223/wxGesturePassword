@@ -17,3 +17,4 @@
 - `dot` 对应选中状态下中间的圆点
 
 配置文件中的`wrong`和`right`分别对应判定为 `错误` 和 `正确` 时的样式。上图gif对应 `config` 文件夹下的 `darkConfig.js` 文件。下图的 gif 则对应 `lightConfig.js` 文件。
+![示例图片](/images/lightPassword.gif)
